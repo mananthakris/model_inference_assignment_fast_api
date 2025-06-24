@@ -23,9 +23,9 @@ class ClientApp():
 
 @app.post("/predict")
 def predict(payload: ImagePayload):
-    clientApp = ClientApp()
-    decodeImage(payload.image, clientApp.filename)
-    return clientApp.classifier.prediction_dog_cat()
+    client_app = ClientApp()
+    decodeImage(payload.image, client_app.filename)
+    return client_app.classifier.prediction_dog_cat()
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -33,4 +33,5 @@ async def serve_index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 if __name__=="__main__":
-    uvicorn.run("clientApp:app", host = "0.0.0.0", port=9000, reload=False)
+    port = int(os.environ.get("PORT", 9000))
+    uvicorn.run("clientApp:app", host = "0.0.0.0", port=port, reload=False)
